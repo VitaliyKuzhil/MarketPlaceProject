@@ -1,0 +1,23 @@
+/.idea
+
+/.venv
+
+venv
+
+# media
+
+.git
+
+.gitignore
+
+*.log
+
+*.gz
+
+*.swp
+
+*.swo
+
+*.pyc
+
+__pycache__
