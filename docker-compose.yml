@@ -5,7 +5,7 @@ services:
     build: .
     image: market_place:1.0
     container_name: market_place_service
-    restart: 'no'
+    restart: 'always'
     env_file:
       - ./.env
     ports:
@@ -18,7 +18,7 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
     container_name: database_service
-    restart: 'no'
+    restart: 'always'
     env_file:
       - ./.env
 
@@ -28,7 +28,7 @@ services:
       - pgadmin:/var/lib/pgadmin
 
     container_name: pgadmin_service
-    restart: 'no'
+    restart: 'always'
     env_file:
       - ./.env
     ports:
