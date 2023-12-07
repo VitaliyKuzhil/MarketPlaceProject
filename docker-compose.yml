@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  market_place:
+    build: .
+    image: market_place:1.0
+    container_name: market_place_service
+    restart: 'no'
+    env_file:
+      - ./.env
+    ports:
+      - "8080:${DJANGO_LISTEN_PORT}"
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16.1-alpine
+    volumes:
+      - database:/var/lib/postgresql/data
+    container_name: database_service
+    restart: 'no'
+    env_file:
+      - ./.env
+
+  pgadmin:
+    image: dpage/pgadmin4:8.0
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+    container_name: pgadmin_service
+    restart: 'no'
+    env_file:
+      - ./.env
+    ports:
+      - "5050:${PGADMIN_LISTEN_PORT}"
+    depends_on:
+      - database
+      - market_place
+
+volumes:
+  database:
+  pgadmin:
