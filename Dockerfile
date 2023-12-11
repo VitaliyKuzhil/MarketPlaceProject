@@ -22,11 +22,8 @@ COPY requirements.txt /market_place/requirements.txt
 # Run command into container (Install dependencies)
 RUN pip install -r /market_place/requirements.txt
 
-# Copy project (. - current position) to folder into conteiner (WORKDIR)
-COPY . /market_place
+# Copy project (. - current position) into conteiner (WORKDIR)
+COPY . .
 
 # Set inside port
 EXPOSE 8080
-
-# Set prosess into container
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
