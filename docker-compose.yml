@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  market_place:
+    build: .
+    image: market_place:1.0
+    container_name: market_place_service
+    volumes:
+      - .:/market_place:rw
+    restart: 'always'
+    env_file:
+      - ./.env
+    ports:
+      - "8080:${DJANGO_LISTEN_PORT}"
+    command: gunicorn MarketPlace.wsgi:application -c gunicorn.conf.py
+    depends_on:
+      - database
+
+  database:
+    image: postgres:16.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: database_service
+    restart: 'always'
+    env_file:
+      - ./.env
+    ports:
+      - "5432:${POSTGRES_PORT}"
+
+  pgadmin:
+    image: dpage/pgadmin4:8.0
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    container_name: pgadmin_service
+    restart: 'always'
+    env_file:
+      - ./.env
+    ports:
+      - "5050:${PGADMIN_LISTEN_PORT}"
+    depends_on:
+      - database
+      - market_place
+
+volumes:
+  postgres_data:
+  pgadmin_data:
